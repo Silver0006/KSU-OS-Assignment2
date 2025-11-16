@@ -1,20 +1,40 @@
 ## Program Description
-Through the use of semephores and shared memory two programs/processes(producer/consumer) will transfer an array of two ints.
-The producer generates the ints using rand() and the consumer prints them. 
-For illustrating the purpose of this program, the producer also prints what it generates.
-producer.cpp contains the code for producer. consumer.cpp contains the code for consumer.
+This program simulates the process of Banker's Alogrithm. The program parses a text file containing the data on the states of the program.
+It then runs the algorithm to test whether is can find a safe sequence that the programs can execute in.
+
+I was tasked with determining whether a set of data could result in a safe sequence. The answer is yes, below is the output.
+'''
+File: test.txt
+Total Resources: 10 5 7 
+Allocated Resources:
+0 1 0 
+2 0 0 
+3 0 2 
+2 2 1 
+0 0 2 
+Max Resources:
+7 5 3 
+3 3 2 
+9 0 2 
+2 2 2 
+4 3 3 
+Needed Resources:
+7 4 3
+1 3 2
+6 0 0
+0 0 1
+4 3 1
+Avalible Resources: 3 2 2 
+Sequence: p3 p4 p1 p2 p0 
+This sequence is safe
+'''
+
+Banker's algorithm checks to see if programs vying for the same resources can be run without deadlock. 
+It checks if the available resources can be given to a program to help it finish execution.
+If so it logs that program and creates an ordered list of what programs need to be run to avoid deadlock.
 
 ## Usage Instructions (Run in terminal)
-1. g++ producer.cpp -pthread -lrt -o producer
-2. g++ consumer.cpp -pthread -lrt -o consumer
-3. ./producer & ./consumer
+1. g++ banker.cpp
+2. ./a.out test.txt
 
-## Usage Instructions (Run in background)
-1. g++ producer.cpp -pthread -lrt -o producer
-2. g++ consumer.cpp -pthread -lrt -o consumer
-3. ./producer & ./consumer &
 
-## Key Components
-The programs use the POSIX shm_open and mmap function to create shared memory.
-The programs use the "mutex" semaphore to indicate whether the shared memory is being accessed.
-Both programs also use addition semphores to indicate whether the array has been filled "sem_full" & "sem_empty".
